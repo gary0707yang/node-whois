@@ -1,0 +1,42 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whois: info Digging</title>
+</head>
+<body>
+    <form action="/" method="post">
+        <label for="domain">Domain:</label>
+    <input type="text" name="domain" id="domain">
+    <input type="submit" value="Submit">
+    </form>
+    <hr>
+    {{if domainName}}
+        <h2>{{domainName}}</h2>
+        <h3>registrar:{{registrar}}</h3>
+        <h3>creationDate:{{creationDate}}</h3>
+        <h3>expirationDate:{{expirationDate}}</h3>
+        <h3>updatedDate:{{updatedDate}}</h3>
+
+        <h3>status</h3>
+        <ul>
+        {{each status}}
+        <li>{{$index}}: {{$value}}</li>
+        {{/each}}
+        </ul>
+        <h3>nameServers</h3>
+        <ul>
+        {{each nameServers}}
+        <li>{{$index}}: {{$value}}</li>
+        {{/each}}
+        </ul>
+    {{/if}}
+    {{if error}}
+    <h2>{{error}}</h2>
+    {{/if}}
+</body>
+</html>

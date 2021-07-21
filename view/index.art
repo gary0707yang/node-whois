@@ -6,33 +6,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whois: info Digging</title>
+    <title>Whois: 信息挖掘</title>
 </head>
 <body>
     <form action="/" method="post">
-        <label for="domain">Domain:</label>
+        <label for="domain">输入域名：</label>
     <input type="text" name="domain" id="domain">
-    <input type="submit" value="Submit">
+    <input type="submit" value="查看信息">
     </form>
     <hr>
     {{if domainName}}
         <h2>{{domainName}}</h2>
-        <h3>registrar:{{registrar}}</h3>
-        <h3>creationDate:{{creationDate}}</h3>
-        <h3>expirationDate:{{expirationDate}}</h3>
-        <h3>updatedDate:{{updatedDate}}</h3>
-
-        <h3>status</h3>
+        {{if registrarOrganization}}
+        <h3> 注册人：{{registrarOrganization}}</h3>
+        {{/if}}
+        <h3>注册商：{{registrar}}</h3>
+        <h3>注册时间：{{creationDate}}</h3>
+        <h3>到期时间:{{expirationDate}}</h3>
+        {{if updatedDate}}
+        <h3>最近更新时间:{{updatedDate}}</h3>
+        {{/if}}
+        <h3>域名状态</h3>
+        
+        {{if status}}
         <ul>
         {{each status}}
         <li>{{$index}}: {{$value}}</li>
         {{/each}}
         </ul>
-        <h3>nameServers</h3>
+        {{/if}}
+        <h3>dns服务器</h3>
         <ul>
         {{each nameServers}}
         <li>{{$index}}: {{$value}}</li>
         {{/each}}
+        
         </ul>
     {{/if}}
     {{if error}}

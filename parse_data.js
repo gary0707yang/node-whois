@@ -10,6 +10,7 @@ var defaultRegex = {
   nameServers: "Name Server: *(.+)",
   dateFormat: "YYYY-MM-DDThh:mm:ssZ",
   notFound: "(No match for |Domain not found|NOT FOUND\\s)",
+  registrarOrganization: "Registrant Organization: *(.+)",
 };
 
 var comRegex = {
@@ -20,6 +21,7 @@ var comRegex = {
   expirationDate: "Expir\\w+ Date: *(.+)",
   status: "Status:\\s*(.+)\\s*\\n",
   nameServers: "Name Server: *(.+)",
+  registrarOrganization: "Registrant Organization: *(.+)",
   notFound: "No match for ",
 };
 
@@ -302,6 +304,19 @@ var trRegex = {
   notFound: "No match found",
 };
 
+// cn域名解析
+var cnRegex = {
+  domainName: "Domain Name: *([^\\s]+)",
+  registrar: "Sponsoring Registrar: *(.+)",
+  creationDate: "Registration Time: *(.+)",
+  expirationDate: "Expiration Time: *(.+)",
+  nameServers: "Name Server: *(.+)",
+  dateFormat: "YYYY-MMM-DD",
+  notFound: "No matching record.",
+  registrarOrganization: "Registrant: *(.+)",
+  email: "Registrant Contact Email: *(.+)",
+};
+
 var parseRawData = function (rawData, domain) {
   if (rawData === null) {
     throw new Error("No Whois data received");
@@ -383,6 +398,8 @@ var parseRawData = function (rawData, domain) {
     domainRegex = coRegex;
   } else if (domain.endsWith(".tr")) {
     domainRegex = trRegex;
+  } else if (domain.endsWith(".cn")) {
+    domainRegex = cnRegex;
   } else {
     domainRegex = defaultRegex;
     unknownTLD = true;
@@ -443,6 +460,9 @@ var parseRawData = function (rawData, domain) {
             result[key] = moment(value).toJSON();
           }
         } else if (key === "domainName") {
+          result[key] = value.toLowerCase();
+        } else if (key === "registrarOrganization") {
+          console.log('here!')
           result[key] = value.toLowerCase();
         } else {
           result[key] = value;

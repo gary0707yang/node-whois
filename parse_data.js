@@ -462,7 +462,6 @@ var parseRawData = function (rawData, domain) {
         } else if (key === "domainName") {
           result[key] = value.toLowerCase();
         } else if (key === "registrarOrganization") {
-          console.log('here!')
           result[key] = value.toLowerCase();
         } else {
           result[key] = value;

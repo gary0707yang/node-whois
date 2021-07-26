@@ -15,7 +15,9 @@
     <input type="submit" value="查看信息">
     </form>
     <hr>
-    {{if domainName}}
+    {{if isAvailable}}
+    <h3> {{domainName}} 还没有注册，赶快抢注！</h3>
+    {{else if domainName}}
         <h2>{{domainName}}</h2>
         {{if registrarOrganization}}
         <h3> 注册人：{{registrarOrganization}}</h3>
@@ -26,9 +28,11 @@
         {{if updatedDate}}
         <h3>最近更新时间:{{updatedDate}}</h3>
         {{/if}}
-        <h3>域名状态</h3>
+        
+        
         
         {{if status}}
+        <h3>域名状态</h3>
         <ul>
         {{each status}}
         <li>{{$index}}: {{$value}}</li>

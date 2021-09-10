@@ -1,5 +1,5 @@
-
-const whois = require('whois');
+const whois = require('whois')
+const whoisHandler = require('./function/whoisParser')
 const express = require('express')
 // var bodyParser = require('body-parser')
 let url = 'google.com'
@@ -23,12 +23,6 @@ app.set('view engine', 'art');
 // 静态文件
 app.use(express.static(path.join(__dirname, 'view')))
 
-// 别人解析方式 whois-parsed-v2
-const parseRawData = require("./parse_data.js");
-
-// 自己的解析方式，todo list
-const parse_domian_info = require('./parse_data2');
-const { json } = require('express');
 
 // 建立页面
 app.get('/', (req, res) => {
@@ -38,34 +32,22 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     // console.log(req.body)
-    url = req.body.domain
-    let json_data = {}
+    domain = req.body.domain
     // whois 解析
-    whois.lookup(url, function (error, data) {
-        if (error) {
-            res.status(504).render('index.art', {'error': error.toString()})
-            return
-        }
-        try {
-            json_data = (parseRawData(data, url))
-        } catch (error) {
-            console.error(`Error: ${error}`)
-            res.status(500).render('index.art', {'error': error.toString()})
-        }
-        // console.log("Yes")
-        
-        // console.log(json_data)
-        res.render('index.art', json_data)
-        // res.sendFile(template(path.join(__dirname,'view', 'index.art'), json_data))
-        // res.json(json_data)
-        
-        // console.log(parse_domian_info( parse_format, data))
-    })
 
+    function handle(result){
+        console.log('whois 异步完成')
+        console.log('开始答复')
+        console.log(result)
+        res.status(result.status).render('index.art', result.message)
+    }
     
+    whoisHandler(domain, handle)
+
+    whois.lookup(domain, (err, data)=>{
+        // console.log(data)
+    })
 })
-
-
 
 
 // 建立监听

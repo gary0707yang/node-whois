@@ -12,6 +12,8 @@
     "express": "^4.17.1",
     "express-art-template": "^1.0.1",
     "moment": "^2.29.1",
+    "seo-scraper": "^2.0.2",
+    "serp": "^2.2.1",
     "whois": "^2.13.5"
   },
   "devDependencies": {

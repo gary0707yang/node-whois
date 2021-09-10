@@ -14,6 +14,7 @@
     "moment": "^2.29.1",
     "seo-scraper": "^2.0.2",
     "serp": "^2.2.1",
+    "user-agents": "^1.0.770",
     "whois": "^2.13.5"
   },
   "devDependencies": {

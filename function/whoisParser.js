@@ -8,11 +8,6 @@ const parseRawData = require("./parse_data");
 // const { json } = require('express');
 
 
-
-function whoisDemo(domain, func){
-    setTimeout(func, 3000)
-}
-
 function domainCheck(domain) {
     
     // TODO
@@ -26,35 +21,30 @@ function domainCheck(domain) {
 
 
 
-var whoisHandler = function(domain, func){
+var whoisHandler = function(domain){
+
+return new Promise(function(resolve, reject){
+    // 检查域名格式
     domain = domainCheck(domain)
     const result = {
         status:200,
         error: false,
         message: 'Not Ready!'
     }
-    console.log('预备解析')
-
-    
     whois.lookup(domain, (err, data) => {
         if(err){
-            console.error(err);
-            result.status = 400
-            result.error = err.message
+            console.error(err)
+            reject(err);
+        }
+        try{
+            result.message = parseRawData(data, domain)
+        } catch(err){
+            reject(err)
         }
         
-        // console.log('开始解析')
-        // console.log(domain);
-        
-        //解析
-        result.message = parseRawData(data, domain)
-        // console.log('解析完成')
-        console.log(data)
-        func(result)
-        return result
+        resolve(result)
     })
-    console.log(`解析完成 ${result}`)
-
+})
 }
 
 module.exports = whoisHandler

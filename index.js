@@ -36,16 +36,18 @@ app.post('/', (req, res) => {
     // whois 解析
 
     function handle(result){
-        console.log('whois 异步完成')
-        console.log('开始答复')
-        console.log(result)
+        // console.log('whois 异步完成')
+        // console.log('开始答复')
+        // console.log(result)
         res.status(result.status).render('index.art', result.message)
     }
     
-    whoisHandler(domain, handle)
-
-    whois.lookup(domain, (err, data)=>{
-        // console.log(data)
+    whoisHandler(domain)
+    .then((result) => {
+        res.status(result.status).render('index.art', result.message)
+    })
+    .catch((err) => {
+        res.status(404).render('index.art', {'error': err.toString()})
     })
 })
 
